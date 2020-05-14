@@ -163,14 +163,16 @@ function onCollide(mainBall, marble) {
 
   const angle = Phaser.Math.Angle.BetweenPoints(marble, mainBall);
 
-  const mod = Math.PI - 2.5;
+  const PI = Math.PI;
+  const mod = PI - 2.5;
+  const modUp = PI - 3;
 
-  const right = angle >= 0 && angle <= mod;
-  const bottomRight = angle > mod && angle <= (Math.PI / 2);
-  const bottomLeft = angle > (Math.PI / 2) && angle < (Math.PI - mod);
-  const left = angle <= Math.PI && angle >= (Math.PI - mod);
-  const topRight = angle < 0 && angle >= -(Math.PI / 2);
-  const topLeft = angle < -(Math.PI / 2) && angle >= -Math.PI;
+  const right = (angle >= 0 && angle <= mod) || (angle < 0 && angle >= -modUp);
+  const bottomRight = angle > mod && angle <= (PI / 2);
+  const bottomLeft = angle > (PI / 2) && angle < (PI - mod);
+  const left = (angle <= PI && angle >= (PI - mod)) || (angle >= -PI && angle < -PI + modUp);
+  const topRight = angle < -modUp && angle >= -(PI / 2);
+  const topLeft = angle < -(PI / 2) && angle >= -PI + modUp;
 
 
   if (right) {
