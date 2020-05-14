@@ -106,8 +106,9 @@ function create() {
       .setName(name)
       .setImmovable(true)
       .setInteractive();
+
     child.getNearlyBalls = getNearlyBalls;
-    //.on('pointermove',onHover);
+    child.rowNumber = row;
 
     if (count === maxBall) {
       count = 1;
@@ -174,21 +175,28 @@ function onCollide(mainBall, marble) {
   const topRight = angle < -modUp && angle >= -(PI / 2);
   const topLeft = angle < -(PI / 2) && angle >= -PI + modUp;
 
+  let rowIncrement = 0;
 
   if (right) {
+    rowIncrement = 0;
     x += ballLength;
   } else if (bottomRight) {
+    rowIncrement = 1;
     x += radius;
     y += ballLength
   } else if (bottomLeft) {
+    rowIncrement = 1;
     x += -radius;
     y += ballLength
   } else if (left) {
+    rowIncrement = 0;
     x += -ballLength;
   } else if (topLeft) {
+    rowIncrement= -1;
     x += -radius;
     y += -ballLength
   } else if (topRight) {
+    rowIncrement = -1;
     x += radius;
     y += -ballLength;
   }
@@ -204,6 +212,7 @@ function onCollide(mainBall, marble) {
   newMarble.setInteractive();
   newMarble.getNearlyBalls = getNearlyBalls;
   newMarble.wasMainBall = true;
+  newMarble.rowNumber = marble.rowNumber + rowIncrement;
 
   //reset
   mainBall.destroy();
